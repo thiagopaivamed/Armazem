@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Armazem.Models.Categoria>
+
+@{
+    ViewData["Title"] = "Categorias Cadastradas";
+}
+
+<div class="container p-5">
+    <div class="border border-light rounded p-5 shadow-lg">
+        <h6>Categorias cadastradas</h6>
+        <hr />
+
+        <p>
+            <a asp-action="NovaCategoria" class="btn btn-outline-dark btn-sm">Nova Categoria</a>
+        </p>
+
+        @if (TempData["CategoriaCriada"] != null)
+        {
+            <p class="alert alert-success">@TempData["CategoriaCriada"].ToString()</p>
+        }
+
+        @if (TempData["CategoriaAtualizada"] != null)
+        {
+            <p class="alert alert-info">@TempData["CategoriaAtualizada"].ToString()</p>
+        }
+
+        @if (TempData["CategoriaExcluida"] != null)
+        {
+            <p class="alert alert-danger">@TempData["CategoriaExcluida"].ToString()</p>
+        }
+
+        @if (Model.Count() > 0)
+        {
+
+            <table class="table table-hover table-borderless table-striped table-sm">
+                <thead>
+                    <tr class="thead-light">
+                        <th>
+                            @Html.DisplayNameFor(model => model.Nome)
+                        </th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nome)
+                            </td>
+                            <td>
+                                <div class="row">
+                                    <a asp-controller="Categorias" asp-action="AtualizarCategoria" asp-route-categoriaId="@item.CategoriaId" class="btn btn-sm btn-outline-primary rounded-circle">
+                                        <i class="fa fa-pencil-square-o"></i>
+                                    </a>
+
+                                    <form asp-controller="Categorias" asp-action="ExcluirCategoria" asp-route-categoriaId="@item.CategoriaId">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger rounded-circle">
+                                            <i class="fa fa-times-circle"></i>
+                                        </button>
+                                    </form>
+                                </div>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

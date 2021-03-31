@@ -1,0 +1,83 @@
+﻿@model IEnumerable<Armazem.Models.Produto>
+
+@{
+    ViewData["Title"] = "Produtos cadastrados";
+}
+
+
+<div class="container p-5">
+    <div class="border border-light rounded p-5 shadow-lg">
+        <h6>Produtos cadastradas</h6>
+        <hr />
+
+        <p>
+            <a asp-action="NovoProduto" class="btn btn-outline-dark btn-sm">Novo Produto</a>
+        </p>
+
+        @if (TempData["ProdutoCriado"] != null)
+        {
+            <p class="alert alert-success">@TempData["ProdutoCriado"].ToString()</p>
+        }
+
+        @if (TempData["ProdutoAtualizado"] != null)
+        {
+            <p class="alert alert-info">@TempData["ProdutoAtualizado"].ToString()</p>
+        }
+
+        @if (TempData["ProdutoExcluido"] != null)
+        {
+            <p class="alert alert-danger">@TempData["ProdutoExcluido"].ToString()</p>
+        }
+
+        @if (Model.Count() > 0)
+        {
+
+            <table class="table table-hover table-borderless table-striped table-sm">
+                <thead>
+                    <tr class="thead-light">
+                        <th>
+                            @Html.DisplayNameFor(model => model.Nome)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Preco)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CategoriaId)
+                        </th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nome)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Preco)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Categoria.Nome)
+                            </td>
+                            <td>
+                                <div class="row">
+                                    <a asp-controller="Produtos" asp-action="AtualizarProduto" asp-route-produtoId="@item.ProdutoId" class="btn btn-sm btn-outline-primary rounded-circle">
+                                        <i class="fa fa-pencil-square-o"></i>
+                                    </a>
+
+                                    <form asp-controller="Produtos" asp-action="ExcluirProduto" asp-route-produtoId="@item.ProdutoId">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger rounded-circle">
+                                            <i class="fa fa-times-circle"></i>
+                                        </button>
+                                    </form>
+                                </div>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
